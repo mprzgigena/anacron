@@ -109,47 +109,7 @@
 //      * [RouterExplorer] Rutas mapeadas
 //      * [NestApplication] Nest application successfully started
 //
-// ==================================================================================
-// 🔧 CONFIGURACIONES AVANZADAS (Posibles extensiones):
-// ==================================================================================
-//
-// En proyectos más complejos, este archivo puede incluir:
-//
-// 🌐 CORS (Cross-Origin Resource Sharing):
-// app.enableCors({
-//   origin: ['http://localhost:3000', 'http://localhost:4200'],
-//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-// });
-//
-// 📝 VALIDACIÓN GLOBAL:
-// app.useGlobalPipes(new ValidationPipe({
-//   whitelist: true,
-//   forbidNonWhitelisted: true,
-//   transform: true,
-// }));
-//
-// 🛡️ PREFIX GLOBAL DE API:
-// app.setGlobalPrefix('api/v1');
-// // Resultaría en: http://localhost:3000/api/v1/pacientes
-//
-// 📊 SWAGGER DOCUMENTATION:
-// const config = new DocumentBuilder()
-//   .setTitle('ANACRON API')
-//   .setDescription('Medical Management System API')
-//   .setVersion('1.0')
-//   .build();
-// const document = SwaggerModule.createDocument(app, config);
-// SwaggerModule.setup('api/docs', app, document);
-//
-// 🔒 HELMET SECURITY:
-// app.use(helmet());
-//
-// 📈 RATE LIMITING:
-// app.use(rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 100, // limit each IP to 100 requests per windowMs
-// }));
-//
+
 // ==================================================================================
 // 🚀 COMANDOS DE EJECUCIÓN:
 // ==================================================================================
@@ -193,29 +153,7 @@
 // - Valores: development | production | test
 // - Efecto: Cambia comportamiento de logs y optimizaciones
 //
-// ==================================================================================
-// 🔍 TROUBLESHOOTING COMÚN:
-// ==================================================================================
-//
-// ❌ ERROR: "EADDRINUSE :::3000"
-// 🔧 SOLUCIÓN: Puerto 3000 ocupado, cambiar puerto o matar proceso
-//
-// ❌ ERROR: "Cannot connect to database"
-// 🔧 SOLUCIÓN: Verificar DATABASE_URL en .env y que MySQL esté corriendo
-//
-// ❌ ERROR: "Module not found"
-// 🔧 SOLUCIÓN: Ejecutar npm install para instalar dependencias
-//
-// ❌ ERROR: Aplicación no responde
-// 🔧 SOLUCIÓN: Verificar que bootstrap() se ejecute sin errores
-//
-// ✅ SUCCESS: "Nest application successfully started"
-// 🎉 RESULTADO: Servidor funcionando correctamente
-//
-// ==================================================================================
-// 📊 MÉTRICAS DE PERFORMANCE:
-// ==================================================================================
-//
+
 // ⏱️ TIEMPO DE INICIALIZACIÓN:
 // - Típico: 2-5 segundos en desarrollo
 // - Factores: Cantidad de módulos, conexión BD, hardware
@@ -252,11 +190,6 @@
 // - Inversión de control
 // - Acoplamiento débil entre componentes
 //
-// ==================================================================================
-// 👨‍💻 DESARROLLADO PARA: Proyecto Escolar - ANACRON Medical System
-// 🗓️ FECHA: Noviembre 2025
-// 🎯 PROPÓSITO: Demostrar inicialización de aplicación NestJS enterprise-level
-// ==================================================================================
 
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
@@ -282,7 +215,7 @@ async function bootstrap() {
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
   
-  console.log(`🚀 ANACRON Backend running on: http://localhost:${port}`);
-  console.log(`📊 API Documentation: http://localhost:${port}/api`);
+  console.log(` ANACRON Backend corriendo en: http://localhost:${port}`);
+  
 }
 bootstrap();

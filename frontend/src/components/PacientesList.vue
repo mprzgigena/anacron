@@ -96,7 +96,7 @@
                   {{ paciente.dni }}
                 </div>
                 <div class="text-sm text-gray-500">
-                  {{ getEdad(paciente.fecha_nacimiento) }} años
+                  {{ getEdad(paciente.fechaNacimiento) }} años
                 </div>
               </td>
               <td class="table-cell">
@@ -113,14 +113,14 @@
                       {{ paciente.apellido }}, {{ paciente.nombre }}
                     </div>
                     <div class="text-sm text-gray-500">
-                      {{ paciente.genero }}
+                      Paciente
                     </div>
                   </div>
                 </div>
               </td>
               <td class="table-cell">
                 <div class="text-sm text-gray-900">
-                  {{ formatDate(paciente.fecha_nacimiento) }}
+                  {{ formatDate(paciente.fechaNacimiento) }}
                 </div>
               </td>
               <td class="table-cell">
@@ -133,7 +133,7 @@
               </td>
               <td class="table-cell">
                 <span class="text-sm text-gray-900">
-                  {{ getObraSocialNombre(paciente.obra_social_id) }}
+                  {{ getObraSocialNombre(paciente.obraSocialId) }}
                 </span>
               </td>
               <td class="table-cell">
@@ -235,7 +235,7 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label for="dni" class="block text-sm font-medium text-gray-700">
                 DNI *
@@ -256,25 +256,11 @@
               <input
                 id="fecha-nacimiento"
                 type="date"
-                v-model="formPaciente.fecha_nacimiento"
+                v-model="formPaciente.fechaNacimiento"
                 required
                 :max="fechaMaxima"
                 class="input-field mt-1"
               />
-            </div>
-            <div>
-              <label for="genero" class="block text-sm font-medium text-gray-700">
-                Género
-              </label>
-              <select
-                id="genero"
-                v-model="formPaciente.genero"
-                class="input-field mt-1"
-              >
-                <option value="M">Masculino</option>
-                <option value="F">Femenino</option>
-                <option value="X">Otro</option>
-              </select>
             </div>
           </div>
 
@@ -304,19 +290,6 @@
             </div>
           </div>
 
-          <!-- Dirección -->
-          <div>
-            <label for="direccion" class="block text-sm font-medium text-gray-700">
-              Dirección
-            </label>
-            <input
-              id="direccion"
-              type="text"
-              v-model="formPaciente.direccion"
-              class="input-field mt-1"
-            />
-          </div>
-
           <!-- Obra Social -->
           <div>
             <label for="obra-social" class="block text-sm font-medium text-gray-700">
@@ -324,7 +297,7 @@
             </label>
             <select
               id="obra-social"
-              v-model="formPaciente.obra_social_id"
+              v-model="formPaciente.obraSocialId"
               class="input-field mt-1"
             >
               <option value="">Sin obra social</option>
@@ -380,12 +353,10 @@ export default {
       nombre: '',
       apellido: '',
       dni: '',
-      fecha_nacimiento: '',
-      genero: 'M',
+      fechaNacimiento: '',
       telefono: '',
       email: '',
-      direccion: '',
-      obra_social_id: ''
+      obraSocialId: ''
     })
 
     // Computed properties
@@ -407,7 +378,7 @@ export default {
       // Filtro por obra social
       if (filtros.obraSocialId) {
         resultado = resultado.filter(paciente => 
-          paciente.obra_social_id == filtros.obraSocialId
+          paciente.obraSocialId == filtros.obraSocialId
         )
       }
 
@@ -452,12 +423,10 @@ export default {
         nombre: '',
         apellido: '',
         dni: '',
-        fecha_nacimiento: '',
-        genero: 'M',
+        fechaNacimiento: '',
         telefono: '',
         email: '',
-        direccion: '',
-        obra_social_id: ''
+        obraSocialId: ''
       })
     }
 
@@ -469,12 +438,10 @@ export default {
         nombre: paciente.nombre || '',
         apellido: paciente.apellido || '',
         dni: paciente.dni || '',
-        fecha_nacimiento: paciente.fecha_nacimiento || '',
-        genero: paciente.genero || 'M',
+        fechaNacimiento: paciente.fechaNacimiento ? paciente.fechaNacimiento.split('T')[0] : '',
         telefono: paciente.telefono || '',
         email: paciente.email || '',
-        direccion: paciente.direccion || '',
-        obra_social_id: paciente.obra_social_id || ''
+        obraSocialId: paciente.obraSocialId || ''
       })
       
       mostrarModalPaciente.value = true
@@ -494,8 +461,8 @@ export default {
         const pacienteData = { ...formPaciente }
         
         // Limpiar campos vacíos
-        if (!pacienteData.obra_social_id) {
-          pacienteData.obra_social_id = null
+        if (!pacienteData.obraSocialId) {
+          pacienteData.obraSocialId = null
         }
 
         if (modoEdicion.value && pacienteEditando.value) {

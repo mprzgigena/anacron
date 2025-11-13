@@ -42,11 +42,11 @@
             class="input-field mt-1"
           >
             <option value="">Todos los estados</option>
-            <option value="pendiente">Pendiente</option>
-            <option value="confirmado">Confirmado</option>
-            <option value="completado">Completado</option>
-            <option value="cancelado">Cancelado</option>
-            <option value="no_asistio">No Asistió</option>
+            <option value="PENDIENTE">Pendiente</option>
+            <option value="CONFIRMADO">Confirmado</option>
+            <option value="COMPLETADO">Completado</option>
+            <option value="CANCELADO">Cancelado</option>
+            <option value="NO_ASISTIO">No Asistió</option>
           </select>
         </div>
 
@@ -121,10 +121,10 @@
           <tbody class="bg-white divide-y divide-gray-200">
             <tr v-for="turno in turnosFiltrados" :key="turno.id" class="hover:bg-gray-50">
               <td class="table-cell">
-                {{ formatDate(turno.fecha) }}
+                {{ formatDate(turno.fechaTurno) }}
               </td>
               <td class="table-cell">
-                {{ formatTime(turno.hora) }}
+                {{ formatTime(turno.horaTurno) }}
               </td>
               <td class="table-cell">
                 <div>
@@ -146,7 +146,7 @@
               </td>
               <td class="table-cell">
                 <span class="text-sm text-gray-900">
-                  {{ turno.profesional?.especialidad?.nombre }}
+                  {{ turno.especialidad?.nombre }}
                 </span>
               </td>
               <td class="table-cell">
@@ -275,11 +275,11 @@ export default {
 
     // Estados disponibles para el modal
     const estadosDisponibles = [
-      { valor: 'pendiente', etiqueta: 'Pendiente' },
-      { valor: 'confirmado', etiqueta: 'Confirmado' },
-      { valor: 'completado', etiqueta: 'Completado' },
-      { valor: 'cancelado', etiqueta: 'Cancelado' },
-      { valor: 'no_asistio', etiqueta: 'No Asistió' }
+      { valor: 'PENDIENTE', etiqueta: 'Pendiente' },
+      { valor: 'CONFIRMADO', etiqueta: 'Confirmado' },
+      { valor: 'COMPLETADO', etiqueta: 'Completado' },
+      { valor: 'CANCELADO', etiqueta: 'Cancelado' },
+      { valor: 'NO_ASISTIO', etiqueta: 'No Asistió' }
     ]
 
     // Computed properties
@@ -288,22 +288,23 @@ export default {
 
       // Filtro por fecha
       if (filtros.fecha) {
-        resultado = resultado.filter(turno => 
-          turno.fecha === filtros.fecha
-        )
+        resultado = resultado.filter(turno => {
+          const fechaTurno = new Date(turno.fechaTurno).toISOString().split('T')[0]
+          return fechaTurno === filtros.fecha
+        })
       }
 
       // Filtro por estado
       if (filtros.estado) {
         resultado = resultado.filter(turno => 
-          turno.estado === filtros.estado
+          turno.estado?.toLowerCase() === filtros.estado.toLowerCase()
         )
       }
 
       // Filtro por profesional
       if (filtros.profesionalId) {
         resultado = resultado.filter(turno => 
-          turno.profesional_id == filtros.profesionalId
+          turno.profesionalId == filtros.profesionalId
         )
       }
 
@@ -322,8 +323,8 @@ export default {
 
       // Ordenar por fecha y hora
       return resultado.sort((a, b) => {
-        const fechaA = new Date(a.fecha + ' ' + (a.hora || '00:00'))
-        const fechaB = new Date(b.fecha + ' ' + (b.hora || '00:00'))
+        const fechaA = new Date(a.fechaTurno + ' ' + (a.horaTurno || '00:00'))
+        const fechaB = new Date(b.fechaTurno + ' ' + (b.horaTurno || '00:00'))
         return fechaA - fechaB
       })
     })
@@ -406,13 +407,13 @@ export default {
     const getEstadoBadgeClass = (estado) => {
       const baseClasses = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium'
       const estadoClasses = {
-        'pendiente': 'bg-yellow-100 text-yellow-800',
-        'confirmado': 'bg-green-100 text-green-800',
-        'completado': 'bg-blue-100 text-blue-800',
-        'cancelado': 'bg-red-100 text-red-800',
-        'no_asistio': 'bg-gray-100 text-gray-800'
+        'PENDIENTE': 'bg-yellow-100 text-yellow-800',
+        'CONFIRMADO': 'bg-green-100 text-green-800',
+        'COMPLETADO': 'bg-blue-100 text-blue-800',
+        'CANCELADO': 'bg-red-100 text-red-800',
+        'NO_ASISTIO': 'bg-gray-100 text-gray-800'
       }
-      return `${baseClasses} ${estadoClasses[estado] || estadoClasses.pendiente}`
+      return `${baseClasses} ${estadoClasses[estado] || estadoClasses.PENDIENTE}`
     }
 
     // Utilidades importadas
