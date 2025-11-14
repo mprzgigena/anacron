@@ -458,7 +458,9 @@ export default {
       try {
         guardando.value = true
 
-        const pacienteData = { ...formPaciente }
+        const pacienteData = { ...formPaciente, fechaNacimiento: new Date(formPaciente.fechaNacimiento).toISOString() }
+
+        console.log(pacienteData);
         
         // Limpiar campos vacíos
         if (!pacienteData.obraSocialId) {
